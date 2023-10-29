@@ -2,9 +2,9 @@ import "dotenv/config";
 import express from "express";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
+import cron from "node-cron"
 
 // const logger = require('morgan');
-// const cron = require('node-cron');
 import mongoose from "mongoose";
 
 // const indexRouter = require('./routes/index');
@@ -37,3 +37,10 @@ mongoose
 app.use("/", indexRouter);
 app.use("/user", userRouter);
 app.use("/loan", loanRouter);
+
+cron.schedule('0 */12 * * *', () => {
+    console.log('================== Cron started ===================');
+    console.log('Fetch all loans from DB pending consent');
+    console.log('Push loans to Recuva for consent');
+    console.log('================== Cron Ended ===================');
+});

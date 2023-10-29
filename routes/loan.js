@@ -12,7 +12,7 @@ router.post("/receiveapproved", isVerifiedClient, async (req, res) => {
       const loan = new Loan({ loanId });
       await loan.save();
 
-      res.status(201).json({
+      return res.status(201).json({
         message: "Loan successfully stored",
         loan: {
           id: loanId,
@@ -20,7 +20,7 @@ router.post("/receiveapproved", isVerifiedClient, async (req, res) => {
         },
       });
     } catch (err) {
-      res.status(400).json({
+      return res.status(400).json({
         error: err.message
       });
     }
@@ -41,7 +41,7 @@ router.post("/receiveconsent", isVerifiedClient, async (req, res) => {
         modifiedAt: Date.now()
       }).exec()
 
-      res.status(201).json({
+      return res.status(201).json({
         message: "Loan successfully updated",
         loan: {
           id: loanId,
@@ -49,7 +49,7 @@ router.post("/receiveconsent", isVerifiedClient, async (req, res) => {
         },
       });
     } catch (err) {
-      res.status(400).json({
+      return res.status(400).json({
         error: err.message
       });
     }
