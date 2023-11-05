@@ -3,6 +3,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import cron from "node-cron"
+import swaggerDocs from "./swagger.js";
 
 // const logger = require('morgan');
 import mongoose from "mongoose";
@@ -28,6 +29,7 @@ mongoose
   .then(() => {
     app.listen(port, () => {
       console.log(`Server is running on port ${port}`);
+      swaggerDocs(app, port);
     });
   })
   .catch((error) =>

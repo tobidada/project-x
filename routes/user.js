@@ -19,7 +19,51 @@ userRouter.get("/all", isAuthenticated, (req, res) => {
   res.send("respond with a resource");
 });
 
-/* POST new user. */
+/**
+ * @openapi
+ * '/user/register':
+ *  post:
+ *    tags:
+ *      - User
+ *    summary: Register a new user
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            required:
+ *              - email
+ *              - password
+ *            properties:
+ *              email:
+ *                type: string
+ *                description: A valid email address in needed
+ *                default: johndoe@email.com
+ *              password:
+ *                type: any
+ *                description: minimum of 6 characters
+ *                default: newpassword
+ *    responses:
+ *      201:
+ *        description: User Registered successfully
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                id:
+ *                  type: string
+ *                email:
+ *                  type: string
+ *                isActive:
+ *                  type: boolean
+ *                createdAt:
+ *                  type: string
+ *      400:
+ *        description: Error registering user
+ *
+ */
 userRouter.post("/register", async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -47,7 +91,55 @@ userRouter.post("/register", async (req, res) => {
   }
 });
 
-/* POST authenticate user. */
+/**
+ * @openapi
+ * '/user/auth':
+ *  post:
+ *    tags:
+ *      - User
+ *    summary: Authenticate a user
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            required:
+ *              - email
+ *              - password
+ *            properties:
+ *              email:
+ *                type: string
+ *                description: A valid email address in needed
+ *                default: johndoe@email.com
+ *              password:
+ *                type: any
+ *                description: minimum of 6 characters
+ *                default: newpassword
+ *    responses:
+ *      200:
+ *        description: User Authenticated successfully
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                id:
+ *                  type: string
+ *                email:
+ *                  type: string
+ *                isActive:
+ *                  type: boolean
+ *                createdAt:
+ *                  type: string
+ *                modifiedAt:
+ *                  type: string
+ *      401:
+ *        description: User Authentication Failed
+ *      404:
+ *        description: User Not Found
+ *
+ */
 userRouter.post("/auth", async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -79,7 +171,18 @@ userRouter.post("/auth", async (req, res) => {
   }
 });
 
-/* GET logout user. */
+/**
+ * @openapi
+ * '/user/logout':
+ *  get:
+ *    tags:
+ *      - User
+ *    summary: Logout a user
+ *    responses:
+ *      200:
+ *        description: User Logged Out
+ *
+ */
 userRouter.get("/logout", async (req, res) => {
   res.cookie("auth_token", "", { maxAge: 1 });
   res.status(200).send("User Logged Out");

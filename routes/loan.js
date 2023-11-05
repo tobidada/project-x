@@ -4,6 +4,46 @@ import { isVerifiedClient } from "../middlewares.js";
 import Loan from "../models/loanModel.js";
 
 /* POST receive approved loan from approval service. */
+/**
+ * @openapi
+ * '/loan/receiveapproved':
+ *  post:
+ *    tags:
+ *      - Loan
+ *    summary: Receive approved loan from approval service
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            required:
+ *              - loanId
+ *            properties:
+ *              loanId:
+ *                type: string
+ *                default: 123456789
+ *    responses:
+ *      201:
+ *        description: Loan successfully stored
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                loan:
+ *                  type: object
+ *                  properties:
+ *                    id:
+ *                      type: string
+ *                    isConsentReceived:
+ *                      type: boolean
+ *      400:
+ *        description: Error occurred
+ *
+ */
 router.post("/receiveapproved", isVerifiedClient, async (req, res) => {
   const { loanId } = req.body;
 
@@ -30,8 +70,48 @@ router.post("/receiveapproved", isVerifiedClient, async (req, res) => {
   });
 });
 
-/* POST receive consented loan from Recuva. */
-router.post("/receiveconsent", isVerifiedClient, async (req, res) => {
+/* PUT receive consented loan from Recuva. */
+/**
+ * @openapi
+ * '/loan/receiveconsent':
+ *  put:
+ *    tags:
+ *      - Loan
+ *    summary: Receive consented loan from Recuva
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            required:
+ *              - loanId
+ *            properties:
+ *              loanId:
+ *                type: string
+ *                default: 123456789
+ *    responses:
+ *      200:
+ *        description: Loan successfully updated
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                loan:
+ *                  type: object
+ *                  properties:
+ *                    id:
+ *                      type: string
+ *                    isConsentReceived:
+ *                      type: boolean
+ *      400:
+ *        description: Error occurred
+ *
+ */
+router.put("/receiveconsent", isVerifiedClient, async (req, res) => {
   const { loanId } = req.body;
 
   if(loanId){
@@ -41,7 +121,7 @@ router.post("/receiveconsent", isVerifiedClient, async (req, res) => {
         modifiedAt: Date.now()
       }).exec()
 
-      return res.status(201).json({
+      return res.status(200).json({
         message: "Loan successfully updated",
         loan: {
           id: loanId,
