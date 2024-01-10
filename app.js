@@ -2,7 +2,7 @@ import "dotenv/config";
 import express from "express";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
-import cron from "node-cron"
+import cron from "node-cron";
 import swaggerDocs from "./swagger.js";
 
 // const logger = require('morgan');
@@ -14,7 +14,7 @@ import loanRouter from "./routes/loan.js";
 import indexRouter from "./routes/index.js";
 
 const app = express();
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 // app.use(logger('dev'));
@@ -40,9 +40,9 @@ app.use("/", indexRouter);
 app.use("/user", userRouter);
 app.use("/loan", loanRouter);
 
-cron.schedule('0 */12 * * *', () => {
-    console.log('================== Cron started ===================');
-    console.log('Fetch all loans from DB pending consent');
-    console.log('Push loans to Recuva for consent');
-    console.log('================== Cron Ended ===================');
+cron.schedule("0 */12 * * *", () => {
+  console.log("================== Cron started ===================");
+  console.log("Fetch all loans from DB pending consent");
+  console.log("Push loans to Recuva for consent");
+  console.log("================== Cron Ended ===================");
 });
